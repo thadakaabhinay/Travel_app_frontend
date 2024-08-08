@@ -1,13 +1,19 @@
 import "./HotelCard.css"
+import { useNavigate } from "react-router-dom";
+
 
 export const HotelCard=({hotel})=>{
+    const navigate=useNavigate();
     if(!hotel) return null;
-    
     const {_id,name,image,address,state,rating,price}=hotel;
 
+    
+    const handleHotelCardClick=()=>{
+        navigate(`/hotels/${name}/${address}-${state}/${_id}/reserve`);
+    }
     return (
         <div  className="relative hotelcard-container shadow cursor-pointer">
-            <div>
+            <div onClick={handleHotelCardClick}>
                 <img className="img" src={image}/>
                 <div className="hotelcard-details">
                     <div className="d-flex align-center space-btw">
