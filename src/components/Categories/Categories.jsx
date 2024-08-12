@@ -1,18 +1,24 @@
 import { useEffect,useState } from "react";
 import axios from "axios";
 import "./Categories.css";
-import { useCategory } from "../../context";
+import { useCategory,useFilter } from "../../context";
 
 export const Categories=()=>{
     const [categories, setCategories] = useState([]);
     const [numberOfCategoryToShow,setNumberOfCategoryToShow]=useState(0)
     const {hotelCategory,setHotelCategory}=useCategory();
+    const {filterDispatch}=useFilter();
 
     const handleShowMoreRightClick=()=>{
         setNumberOfCategoryToShow((prev)=>prev+10);
     }
     const handleShowMoreLeftClick=()=>{
         setNumberOfCategoryToShow((prev)=>prev-10);
+    }
+    const handleFilterClick=()=>{
+        filterDispatch({
+            type:"SHOW_FILTER_MODAL",
+        });
     }
 
     useEffect(()=>{
@@ -33,7 +39,7 @@ export const Categories=()=>{
         setHotelCategory(category);
     };
    
-
+    
 
 
     return(
@@ -62,6 +68,10 @@ export const Categories=()=>{
                             </button>  
                         ) 
                     }
+                    <button className="button btn-filter d-flex align-center gap-small cursor-pointer fixed" onClick={handleFilterClick}>
+                        <span className="material-icons-outlined">filter_alt</span>
+                        <span>Filter</span>
+                    </button>
 
                 
             </section>

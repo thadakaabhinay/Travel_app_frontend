@@ -1,9 +1,10 @@
-import { Navbar,HotelCard,Categories,SearchStayWithDate } from "../../components";
+import { Navbar,HotelCard,Categories,SearchStayWithDate,Filter} from "../../components";
 import "./Home.css"
 import axios from "axios";
 import { useEffect,useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useCategory,useDate } from "../../context";
+import { useCategory,useDate,useFilter } from "../../context";
+import { getHotelsByPrice,getHotelsByRoomsAndBeds,getHotelsBypropertyType,getHotelsByRatings,getHotelsByCancelation } from "../../utils";
 
 export const Home =()=>{
 
@@ -13,6 +14,7 @@ export const Home =()=>{
     const [hotels,setHotels]=useState([]);
     const {hotelCategory}=useCategory();
     const { isSearchModelOpen }=useDate();
+    const {isFilterModalOpen,priceRange,noOfBathrooms,noOfBedrooms,noOfBeds,propertyType,travelsRating,isCancelable}=useFilter();
 
 
     useEffect(()=>{
@@ -42,7 +44,14 @@ export const Home =()=>{
             }
         },1000)
     };
-    
+
+    const filteredHotelByPrice=getHotelsByPrice(hotels,priceRange);
+    const filteredHotelsByBedsAndRooms = getHotelsByRoomsAndBeds(filteredHotelByPrice,noOfBathrooms,noOfBedrooms,noOfBeds)
+
+    const filteredHotelsByPropertyType=getHotelsBypropertyType(filteredHotelsByBedsAndRooms,propertyType)
+    const filteredHotelsByRatings = getHotelsByRatings(filteredHotelsByPropertyType,travelsRating)
+    const filteredHotelsByCancelation= getHotelsByCancelation(filteredHotelsByRatings,isCancelable)
+
     return(
         <div className="relative">
             <Navbar />
@@ -58,7 +67,7 @@ export const Home =()=>{
                     >
                         <main className="main d-flex align-center wrap  gap-larger">
                             {
-                                hotels && hotels.map(hotel=> <HotelCard key={hotel._id} hotel={hotel}/>)
+                               filteredHotelsByCancelation && filteredHotelsByCancelation.map(hotel=> <HotelCard key={hotel._id} hotel={hotel}/>)
                             }
                         </main>
                             
@@ -67,6 +76,9 @@ export const Home =()=>{
                 }
                 {
                     isSearchModelOpen && <SearchStayWithDate />
+                }
+                {
+                    isFilterModalOpen && <Filter />
                 }
         </div>
        

@@ -9,7 +9,7 @@ function App() {
         <Route path="/" element={  <Home />}/>
         <Route path="/hotels/:name/:address/:id/reserve" element={<SingleHotel />}/>
         <Route path="/hotels/:address" element={<SearchResults />} />
-        
+
     </Routes>
   
     
