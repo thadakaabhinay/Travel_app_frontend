@@ -10,3 +10,4 @@ export {Filter} from "./Filters/Filter";
 export {AuthLogin} from "./Auth/AuthLogin";
 export {AuthSignup} from "./Auth/AuthSignUp";
 export {AuthModal} from "./AuthModal/AuthModal";
+export { OrderSummaryComp} from  "./OrderSummaryComp/OrderSummaryComp";
