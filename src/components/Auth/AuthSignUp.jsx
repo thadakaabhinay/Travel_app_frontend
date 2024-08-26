@@ -91,6 +91,9 @@ export const AuthSignup = ()=>{
         authDispatch({
             type:"CLEAR_USER_DATA",
         })
+        authDispatch({
+            type:"SHOW_AUTH_MODAL"
+        })
 
     }
     return (
