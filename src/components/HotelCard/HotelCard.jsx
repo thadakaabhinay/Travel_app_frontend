@@ -16,7 +16,14 @@ export const HotelCard=({hotel})=>{
   
     
     const handleHotelCardClick=()=>{
-        navigate(`/hotels/${name}/${address}-${state}/${_id}/reserve`);
+        if(accessToken){
+            navigate(`/hotels/${name}/${address}-${state}/${_id}/reserve`);
+        }else{
+            authDispatch({
+                type:"SHOW_AUTH_MODAL",
+            })
+        }
+        
     }
     const handleWishlistClick=()=>{
         if(accessToken){

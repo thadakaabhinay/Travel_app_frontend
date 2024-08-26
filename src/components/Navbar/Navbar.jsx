@@ -7,19 +7,31 @@ export const Navbar = () => {
 
   const {destination,dateDispatch,checkInDate,checkOutDate,guests }=useDate();
 
-  const { authDispatch}=useAuth();
+  const { accessToken,authDispatch}=useAuth();
 
   const handleSearchClick=()=>{
-    dateDispatch({
-      type:"OPEN_SEARCH_MODAL",
-    });
-  };
+    if(accessToken){
+      dateDispatch({
+        type:"OPEN_SEARCH_MODAL",
+      });
+    }else{
+      authDispatch({
+        type:"SHOW_AUTH_MODAL",
+    })
+    }
+
+    }
+  
 
   const handleAuthClick=()=>{
-    authDispatch({ 
-      type:"SHOW_AUTH_MODAL",
+    if(!accessToken){
+      authDispatch({ 
+        type:"SHOW_AUTH_MODAL",
+  
+       })
 
-     })
+    }
+  
   }
   return (
     <header className="heading d-flex align-center">
